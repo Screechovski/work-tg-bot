@@ -1,9 +1,9 @@
 export function getEnv(envName: string): any {
-  const value = process.env[envName];
+    const value = process.env[envName];
 
-  if (!value) {
-    throw new Error(`'${envName}' не найден, проверьте env`);
-  }
+    if (!value) {
+        throw new Error(`'${envName}' не найден, проверьте env`);
+    }
 
-  return value;
+    return value;
 }

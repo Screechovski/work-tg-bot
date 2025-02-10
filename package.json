@@ -1,23 +1,25 @@
 {
-  "name": "tg-bot",
-  "version": "1.0.0",
-  "description": "Телеграм бот для автоматизации рабочих сообщений в телеграм чатах",
-  "author": "Dmitriev Yaroslav",
-  "scripts": {
-    "start": "nodemon --watch ./**/*.ts --exec \"ts-node src/index.ts\"",
-    "build": "tsc && cp package.json dist/ && cd dist && npm i --production && cd ..",
-    "build2": "tsc"
-  },
-  "dependencies": {
-    "@sequelize/core": "^7.0.0-alpha.42",
-    "@sequelize/postgres": "^7.0.0-alpha.43",
-    "dotenv": "^16.4.5",
-    "telegraf": "^4.16.3"
-  },
-  "devDependencies": {
-    "@types/node": "^22.10.1",
-    "nodemon": "^3.1.7",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.7.2"
-  }
+    "name": "tg-bot",
+    "version": "1.0.0",
+    "description": "Телеграм бот для автоматизации рабочих сообщений в телеграм чатах",
+    "author": "Dmitriev Yaroslav",
+    "scripts": {
+        "start": "concurrently \"npm run watch\" \"npm run dev\"",
+        "start:dev": "nodemon --watch src --exec \"tsc --build && node --env-file=.env dist/index.js\"",
+        "watch": "tsc --watch",
+        "dev": "nodemon --watch dist dist/index.js"
+    },
+    "dependencies": {
+        "@sequelize/core": "^7.0.0-alpha.42",
+        "@sequelize/postgres": "^7.0.0-alpha.43",
+        "dotenv": "^16.4.5",
+        "telegraf": "^4.16.3"
+    },
+    "devDependencies": {
+        "@types/node": "^22.10.1",
+        "concurrently": "^9.1.2",
+        "nodemon": "^3.1.7",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.7.2"
+    }
 }
