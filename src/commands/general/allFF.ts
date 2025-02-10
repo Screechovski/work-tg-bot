@@ -1,23 +1,27 @@
-import { Command, createHandler } from "../../core/command";
+import { Command } from "../../core/command";
+import { Context } from "../../core/context";
 import { User } from "../../db/models";
 
-const allFFHandler = createHandler(async (ctx) => {
-    const users = await User.findAll();
-    let message = "";
-
-    for (const user of users) {
-        if (user.tgId === ctx.username) {
-            continue;
-        }
-        message += `@${user.tgId} `;
+export class AllFFCommand extends Command {
+    constructor() {
+        super();
+        this.command = "all_ff";
+        this.description = "Тегает всех пользователей в ответ на сообщение";
+        this.example = "сообщение...";
     }
 
-    await ctx.reply(message);
-});
+    async handler(ctx: Context) {
+        const users = await User.findAll();
+        let message = "";
 
-export const allFFCommand = new Command(
-    "all_ff",
-    allFFHandler,
-    "Тегает всех пользователей в ответ на сообщение",
-    "сообщение..."
-);
+        for (const user of users) {
+            if (user.tgId === ctx.username) {
+                continue;
+            }
+
+            message += `@${user.tgId} `;
+        }
+
+        await ctx.reply(message);
+    }
+}

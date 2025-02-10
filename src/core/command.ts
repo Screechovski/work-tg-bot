@@ -1,28 +1,26 @@
 import { Context } from "./context";
 
-type Handler = (ctx: Context) => Promise<void>;
-
 export class Command {
     command: string;
-    handler: Handler;
     description: string;
     example: string;
 
-    constructor(command: string, handler: Handler, description: string, example: string) {
-        this.command = command;
-        this.handler = handler;
-        this.description = description;
-        this.example = example;
+    constructor() {
+        this.command = "";
+        this.description = "";
+        this.example = "";
     }
-}
 
-export function createHandler(callback: Handler) {
-    return async (ctx: Context) => {
+    protected async handler(ctx: Context) {
+        return;
+    }
+
+    public async getHandler(ctx: Context) {
         try {
-            await callback(ctx);
+            await this.handler(ctx);
         } catch (error) {
             ctx.react("😡");
             console.log(error);
         }
-    };
+    }
 }

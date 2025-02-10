@@ -26,7 +26,7 @@ export class Bot {
         this.bot.launch();
     }
 
-    async add({ command, handler, description, example }: Command) {
+    async add({ command, getHandler, description, example }: Command) {
         this.commands.push({
             command,
             description,
@@ -35,7 +35,7 @@ export class Bot {
 
         this.bot.command(command, async (ctx) => {
             try {
-                await handler(new Context(ctx));
+                await getHandler(new Context(ctx));
             } catch (error) {
                 ctx.react("😡");
                 console.log(error);
