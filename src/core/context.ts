@@ -7,43 +7,43 @@ import { User } from "../db/models";
 type TextMessageContext = TelegrafContext<Update.MessageUpdate<Message.TextMessage>>;
 
 export class Context {
-  _ctx: TextMessageContext;
+    _ctx: TextMessageContext;
 
-  constructor(ctx: TextMessageContext) {
-    this._ctx = ctx;
-  }
+    constructor(ctx: TextMessageContext) {
+        this._ctx = ctx;
+    }
 
-  get message() {
-    return this._ctx.message?.text;
-  }
+    get message() {
+        return this._ctx.message?.text;
+    }
 
-  get username() {
-    return this._ctx.message.from.username;
-  }
+    get username() {
+        return this._ctx.message.from.username;
+    }
 
-  get lines() {
-    return getLines(this.message);
-  }
+    get lines() {
+        return getLines(this.message);
+    }
 
-  getAuthor() {
-    return User.findOne({ where: { tgId: this.username } });
-  }
+    getAuthor() {
+        return User.findOne({ where: { tgId: this.username } });
+    }
 
-  send(text: string) {
-    return this._ctx.sendMessage(text, {
-      parse_mode: "HTML",
-    });
-  }
+    send(text: string) {
+        return this._ctx.sendMessage(text, {
+            parse_mode: "HTML",
+        });
+    }
 
-  reply(text: string) {
-    return this._ctx.reply(text, {
-      reply_parameters: {
-        message_id: this._ctx.message.message_id,
-      },
-    });
-  }
+    reply(text: string) {
+        return this._ctx.reply(text, {
+            reply_parameters: {
+                message_id: this._ctx.message.message_id,
+            },
+        });
+    }
 
-  react(symbol: TelegramEmoji) {
-    return this._ctx.react(symbol);
-  }
+    react(symbol: TelegramEmoji) {
+        return this._ctx.react(symbol);
+    }
 }

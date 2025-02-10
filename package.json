@@ -5,7 +5,7 @@
     "author": "Dmitriev Yaroslav",
     "scripts": {
         "start": "concurrently \"npm run watch\" \"npm run dev\"",
-        "start:dev": "nodemon --watch src --exec \"tsc --build && node --env-file=.env dist/index.js\"",
+        "start:dev": "nodemon --watch ./src/**/*.ts --exec \"tsc --build && node --env-file=.env dist/index.js\"",
         "watch": "tsc --watch",
         "dev": "nodemon --watch dist dist/index.js"
     },

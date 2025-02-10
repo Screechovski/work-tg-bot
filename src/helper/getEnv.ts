@@ -1,4 +1,4 @@
-export function getEnv(envName: string): any {
+export function getEnv(envName: string): string {
     const value = process.env[envName];
 
     if (!value) {
