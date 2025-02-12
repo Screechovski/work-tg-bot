@@ -1,8 +1,8 @@
 import { Telegraf } from "telegraf";
 import { Command } from "./command";
-import { Context } from "./context";
+import { createContext } from "./context";
 import { getEnv } from "../helper/getEnv";
-import { db } from "../db/models";
+import { Database } from "../db/models";
 
 interface BotCommands {
     command: string;
@@ -10,45 +10,52 @@ interface BotCommands {
     example: string;
 }
 
-export class Bot {
-    bot: Telegraf;
-    commands: BotCommands[];
+export function createBot(db: Database) {
+    const token = getEnv("TOKEN");
+    const bot = new Telegraf(token);
+    const commands: BotCommands[] = [];
 
-    constructor() {
-        const token = getEnv("TOKEN");
-        console.log(token);
-        this.bot = new Telegraf(token);
-        this.commands = [];
-    }
-
-    async launch() {
+    async function launch() {
         await db.init();
-        this.bot.launch();
+        await bot.launch();
     }
 
-    async add({ command, getHandler, description, example }: Command) {
-        this.commands.push({
-            command,
-            description,
-            example,
-        });
+    function hasCommand(command: string) {
+        return Boolean(commands.find((item) => item.command === command));
+    }
 
-        this.bot.command(command, async (ctx) => {
+    function addCommand(command: string, description: string, example: string) {
+        commands.push({ command, description, example });
+    }
+
+    async function add({ command, handler, description, example }: Command) {
+        if (hasCommand(command)) {
+            throw Error(`Command ${command} already exist`);
+        }
+
+        addCommand(command, description, example);
+
+        bot.command(command, async (ctx) => {
             try {
-                await getHandler(new Context(ctx));
+                await handler(createContext(ctx, db), db);
             } catch (error) {
                 ctx.react("😡");
                 console.log(error);
             }
         });
 
-        this.bot.command("commands", async (ctx) => {
+        bot.command("commands", async (ctx) => {
             let msg = "";
-            for (const item of this.commands) {
+
+            console.log("commands work");
+
+            for (const item of commands) {
                 msg += `<b>/${item.command}</b> - ${item.description ?? "?"}\n`;
+
                 if (item.example) {
                     msg += `Пример: <code>/${item.command} ${item.example}</code>\n`;
                 }
+
                 msg += "\n";
             }
 
@@ -57,4 +64,9 @@ export class Bot {
             });
         });
     }
+
+    return {
+        launch,
+        add,
+    };
 }

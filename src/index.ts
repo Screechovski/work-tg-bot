@@ -1,8 +1,7 @@
-import { Bot } from "./core/bot";
-import { allFCommand } from "./commands/general/allF";
-import { testCommand } from "./commands/general/test";
-import { vacationCommand } from "./commands/general/vacation";
-import { AllFFCommand } from "./commands/general/allFF";
+import { db } from "./db/models";
+import { allFFCommand } from "./commands/general/allFF/allFF";
+import { createBot } from "./core/bot";
+import { allFCommand } from "./commands/general/allF/allF";
 
 // bot.command("poslanie", tryC(poslanieHandler));
 // bot.command("all_f", tryC(allFrontendHandler));
@@ -21,12 +20,11 @@ import { AllFFCommand } from "./commands/general/allFF";
 
 async function main() {
     try {
-        const bot = new Bot();
-
-        // await bot.add(allFCommand);
+        const bot = createBot(db);
+        await bot.add(allFCommand);
         // await bot.add(vacationCommand);
         // await bot.add(testCommand);
-        await bot.add(new AllFFCommand());
+        await bot.add(allFFCommand);
 
         await bot.launch();
     } catch (error) {

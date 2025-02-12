@@ -84,36 +84,41 @@ export const Review = sequelize.define<ReviewModel>("Review", {
 // User.hasMany(Review, { foreignKey: "reviewerId", as: "Reviewed" });
 // Review.belongsTo(User, { foreignKey: "reviewerId", as: "Reviewer" });
 
-export const db = {
-    async init() {
-        async function addUser(s: string, n: string, p: string, tg: string, git: string, k: number) {
-            const user = await User.findOne({ where: { tgId: tg } });
+async function init() {
+    async function addUser(s: string, n: string, p: string, tg: string, git: string, k: number) {
+        const user = await User.findOne({ where: { tgId: tg } });
 
-            if (user) {
-                return;
-            }
-
-            return User.create({
-                name: n,
-                surname: s,
-                patronymic: p,
-                tgId: tg,
-                gitId: git,
-                reviewK: k,
-            });
+        if (user) {
+            return;
         }
 
-        await sequelize.sync();
-        await addUser("Бобошко", "Юрий", "Леонидович", "yusfortelegram", "iboboshko", 5);
-        await addUser("Ширяев", "Дмитрий", "Александрович", "profunarsenal", "DSHiryaev", 4);
-        await addUser("Фисунов", "Дмитрий", "Владимирович", "Dmitry_Fisunov", "DFisunov", 4);
-        await addUser("Хаджаев", "Роман", "Алихонович", "EvilAvocad", "RKHadzhaev", 4);
-        await addUser("Матюхин", "Алексей", "Владимирович", "matyukhinAV", "AMatyukhin", 1);
-        await addUser("Дмитриев", "Ярослав", "Владимирович", "dmyavl", "YADmitriev", 1);
-        await addUser("Надолинный", "Максим", "Викторович", "nethesite", "MNadolinnyi", 1);
-        await addUser("Лопатин", "Глеб", "Германович", "coolboy321", "GLopatin", 1);
-        await addUser("Просветкин", "Андрей", "Сергеевич", "andreyvue78", "AProsvetkin", 1);
-        await addUser("Крашенинников", "Иван", "Владиславович", "dotbotnet", "IKrasheninni", 1);
-        // await addUser("Лизочка", "Солнышко", "Красоточка", "marallada", "_", 1);
-    },
+        return User.create({
+            name: n,
+            surname: s,
+            patronymic: p,
+            tgId: tg,
+            gitId: git,
+            reviewK: k,
+        });
+    }
+
+    await sequelize.sync();
+    await addUser("Бобошко", "Юрий", "Леонидович", "yusfortelegram", "iboboshko", 5);
+    await addUser("Ширяев", "Дмитрий", "Александрович", "profunarsenal", "DSHiryaev", 4);
+    await addUser("Фисунов", "Дмитрий", "Владимирович", "Dmitry_Fisunov", "DFisunov", 4);
+    await addUser("Хаджаев", "Роман", "Алихонович", "EvilAvocad", "RKHadzhaev", 4);
+    await addUser("Матюхин", "Алексей", "Владимирович", "matyukhinAV", "AMatyukhin", 1);
+    await addUser("Дмитриев", "Ярослав", "Владимирович", "dmyavl", "YADmitriev", 1);
+    await addUser("Надолинный", "Максим", "Викторович", "nethesite", "MNadolinnyi", 1);
+    await addUser("Лопатин", "Глеб", "Германович", "coolboy321", "GLopatin", 1);
+    await addUser("Просветкин", "Андрей", "Сергеевич", "andreyvue78", "AProsvetkin", 1);
+    await addUser("Крашенинников", "Иван", "Владиславович", "dotbotnet", "IKrasheninni", 1);
+    // await addUser("Лизочка", "Солнышко", "Красоточка", "marallada", "_", 1);
+}
+
+export const db = {
+    User,
+    init,
 };
+
+export type Database = typeof db;

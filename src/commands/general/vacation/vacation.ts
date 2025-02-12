@@ -1,5 +1,5 @@
-import { formatDate } from "../../helper/formatDate";
-import { Command, createHandler } from "../../core/command";
+import { formatDate } from "../../../helper/formatDate";
+import { createCommand, createHandler } from "../../../core/command";
 
 const vacationHandler = createHandler(async (ctx) => {
     const date = ctx.message.split(" ")[1];
@@ -22,7 +22,7 @@ const vacationHandler = createHandler(async (ctx) => {
     await ctx.react("👍");
 });
 
-export const vacationCommand = new Command(
+export const vacationCommand = createCommand(
     "vacation",
     vacationHandler,
     "Добавляет возможность назначить отпуск пользователю",

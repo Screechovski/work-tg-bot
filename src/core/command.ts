@@ -1,26 +1,26 @@
-import { Context } from "./context";
+import type { Database } from "../db/models";
+import type { Context } from "./context";
 
-export class Command {
-    command: string;
-    description: string;
-    example: string;
+type Handler = (ctx: Context, db: Database) => Promise<void>;
 
-    constructor() {
-        this.command = "";
-        this.description = "";
-        this.example = "";
-    }
-
-    protected async handler(ctx: Context) {
-        return;
-    }
-
-    public async getHandler(ctx: Context) {
+export function createHandler(callback: Handler): Handler {
+    return async (ctx: Context, db: Database) => {
         try {
-            await this.handler(ctx);
+            await callback(ctx, db);
         } catch (error) {
             ctx.react("😡");
             console.log(error);
         }
-    }
+    };
 }
+
+export function createCommand(command: string, handler: Handler, description = "", example = "") {
+    return {
+        command,
+        handler,
+        description,
+        example,
+    };
+}
+
+export type Command = ReturnType<typeof createCommand>;
