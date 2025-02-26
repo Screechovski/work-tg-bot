@@ -1,7 +1,10 @@
 import express, { Express, Request, Response } from "express";
 import { getStatusFromMergeRequest } from "./mergeRequest";
+import { Database } from "../db/models";
 
-export function createHookServer(callback: (message: string) => void) {
+let callback = (message: string) => {};
+
+export function createHookServer(db: Database) {
     const app: Express = express();
     const port = 3333;
 
@@ -17,7 +20,17 @@ export function createHookServer(callback: (message: string) => void) {
         res.send("ok");
     });
 
-    app.listen(port, () => console.log(`SERVER inited\n  http://localhost:${port}`));
-
-    return app;
+    return {
+        onHook(_callback: (message: string) => void) {
+            callback = _callback;
+        },
+        launch(): Promise<void> {
+            return new Promise((resolve) => {
+                app.listen(port, () => {
+                    resolve();
+                    console.log(`SERVER inited\n  http://localhost:${port}`);
+                });
+            });
+        },
+    };
 }

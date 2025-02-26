@@ -43,7 +43,7 @@ export function createBot(db: Database) {
         return Boolean(commands.find((item) => item.command === command));
     }
 
-    async function add({ command, handler, description, example }: Command) {
+    function add({ command, handler, description, example }: Command) {
         if (hasCommand(command)) {
             throw Error(`Command ${command} already exist`);
         }

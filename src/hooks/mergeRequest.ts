@@ -86,8 +86,13 @@ export async function getStatusFromMergeRequest(data: any): Promise<string | nul
                 }
             }
         }
+
         if (data?.changes?.labels?.current[0]?.title === "discus") {
-            const gitId = data?.user.username;
+            // TODO надо добавить проверку на ревьюера и автора лейбла discus,
+            // если они разные то продумать вывод сообщения
+            // const gitId = data?.user.username;
+            const gitId = data?.reviewers?.[0]?.username;
+
             if (gitId) {
                 const user = await User.findOne({ where: { gitId } });
 
