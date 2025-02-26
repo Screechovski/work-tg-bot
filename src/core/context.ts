@@ -36,6 +36,10 @@ export function createContext(ctx: TextMessageContext, db: Database) {
         return react("🆒");
     }
 
+    function getRootCtx() {
+        return ctx;
+    }
+
     return {
         message,
         username,
@@ -45,6 +49,7 @@ export function createContext(ctx: TextMessageContext, db: Database) {
         reply,
         react,
         randomSuccessReact,
+        getRootCtx,
     };
 }
 

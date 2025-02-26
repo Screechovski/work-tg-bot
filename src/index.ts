@@ -1,7 +1,9 @@
 import { db } from "./db/models";
-import { allFFCommand } from "./commands/general/allFF/allFF";
 import { createBot } from "./core/bot";
+import { createHookServer } from "./hooks";
+import { allFFCommand } from "./commands/general/allFF/allFF";
 import { allFCommand } from "./commands/general/allF/allF";
+import { testCommand } from "./commands/general/test";
 
 // bot.command("poslanie", tryC(poslanieHandler));
 // bot.command("all_f", tryC(allFrontendHandler));
@@ -21,12 +23,18 @@ import { allFCommand } from "./commands/general/allF/allF";
 async function main() {
     try {
         const bot = createBot(db);
+
         await bot.add(allFCommand);
         // await bot.add(vacationCommand);
-        // await bot.add(testCommand);
+        await bot.add(testCommand);
         await bot.add(allFFCommand);
+        const server = createHookServer(bot.sendToReviewChat);
+        // server.on(bot.send);
 
+        await db.init();
+        console.log("DB inited");
         await bot.launch();
+        console.log("BOT inited");
     } catch (error) {
         console.log(error);
     }

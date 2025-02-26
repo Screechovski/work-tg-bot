@@ -51,7 +51,7 @@
         "target_project_id": 67254182,
         "time_estimate": 0,
         "title": "test mr 2",
-        "updated_at": "2025-02-25 22:09:57 UTC",
+        "updated_at": "2025-02-25 22:13:28 UTC",
         "updated_by_id": 6457388,
         "prepared_at": "2025-02-25 22:08:30 UTC",
         "assignee_ids": [],
@@ -70,7 +70,7 @@
             "url": "https://gitlab.com/webdev1232/test_bot/-/commit/b45a7a4699742bd43a2761f585d04bbffcad9389",
             "author": { "name": "YaroslavD", "email": "webdev1232@gmail.com" }
         },
-        "reviewer_ids": [],
+        "reviewer_ids": [14053461],
         "source": {
             "id": 67254182,
             "name": "test_bot",
@@ -117,14 +117,20 @@
     },
     "labels": [],
     "changes": {
-        "reviewers": {
+        "updated_at": { "previous": "2025-02-25 22:12:13 UTC", "current": "2025-02-25 22:13:28 UTC" },
+        "labels": {
             "previous": [
                 {
-                    "id": 14053461,
-                    "name": "Alex Amelin",
-                    "username": "AAmelin32",
-                    "avatar_url": "https://gitlab.com/uploads/-/system/user/avatar/14053461/avatar.png",
-                    "email": "[REDACTED]"
+                    "id": 39223550,
+                    "title": "discus",
+                    "color": "#dc143c",
+                    "project_id": 67254182,
+                    "created_at": "2025-02-23 19:25:52 UTC",
+                    "updated_at": "2025-02-23 19:25:52 UTC",
+                    "template": false,
+                    "description": null,
+                    "type": "ProjectLabel",
+                    "group_id": null
                 }
             ],
             "current": []
@@ -135,5 +141,14 @@
         "url": "git@gitlab.com:webdev1232/test_bot.git",
         "description": null,
         "homepage": "https://gitlab.com/webdev1232/test_bot"
-    }
+    },
+    "reviewers": [
+        {
+            "id": 14053461,
+            "name": "Alex Amelin",
+            "username": "AAmelin32",
+            "avatar_url": "https://gitlab.com/uploads/-/system/user/avatar/14053461/avatar.png",
+            "email": "[REDACTED]"
+        }
+    ]
 }

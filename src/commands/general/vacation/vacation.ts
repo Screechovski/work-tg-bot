@@ -1,7 +1,7 @@
 import { formatDate } from "../../../helper/formatDate";
-import { createCommand, createHandler } from "../../../core/command";
+import { createCommand, createCommandHandler } from "../../../core/command";
 
-const vacationHandler = createHandler(async (ctx) => {
+const vacationHandler = createCommandHandler(async (ctx) => {
     const date = ctx.message.split(" ")[1];
 
     if (!date) {
