@@ -96,5 +96,8 @@ export function createBot(db: Database) {
                 message_thread_id: 2,
             });
         },
+        setAddDisableMrUrl(_add: (url: string) => void) {
+            // todo идея для будущего, при первом сообщении об созданом мр, добавлять кнопку, которая убирает прослушку с этого мр
+        },
     };
 }
