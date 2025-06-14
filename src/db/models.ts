@@ -26,8 +26,8 @@ interface UserModel extends Model<InferAttributes<UserModel>, InferCreationAttri
     tgId: string;
     gitId: string;
     gitIdNumber?: number;
-    vacationStart?: string;
-    vacationEnd?: string;
+    vacationStart?: string | null;
+    vacationEnd?: string | null;
 }
 
 export const User = sequelize.define<UserModel>("User", {

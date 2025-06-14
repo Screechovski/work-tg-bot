@@ -7,7 +7,12 @@ export function createCommandHandler(callback: Handler): Handler {
     return callback;
 }
 
-export function createCommand(command: string, handler: Handler, description = "", example = "") {
+export function createCommand(
+    command: string,
+    handler: Handler,
+    description = "",
+    example: string | ([string, string] | string)[] = ""
+) {
     return {
         command,
         handler,

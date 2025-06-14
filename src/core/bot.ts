@@ -1,18 +1,28 @@
+import { Agent } from "node:https";
 import { Telegraf } from "telegraf";
 import { Command } from "./command";
 import { createContext } from "./context";
 import { getEnv } from "../helper/getEnv";
 import { Database } from "../db/models";
 
-interface BotCommands {
-    command: string;
-    description: string;
-    example: string;
-}
+type BotCommands = Omit<Command, "handler">;
 
 export function createBot(db: Database) {
     const token = getEnv("TOKEN");
-    const bot = new Telegraf(token);
+
+    const bot = new Telegraf(token, {
+        telegram: {
+            agent: new Agent({ keepAlive: false }),
+        },
+    });
+
+    process.once("SIGINT", () => bot.stop("SIGINT"));
+    process.once("SIGTERM", () => bot.stop("SIGTERM"));
+
+    bot.catch((error) => {
+        console.warn("bot.catch::", error);
+    });
+
     const commands: BotCommands[] = [];
 
     async function launch(): Promise<void> {
@@ -23,7 +33,19 @@ export function createBot(db: Database) {
                 msg += `<b>/${item.command}</b> - ${item.description ?? "?"}\n`;
 
                 if (item.example) {
-                    msg += `Пример: <code>/${item.command} ${item.example}</code>\n`;
+                    if (Array.isArray(item.example)) {
+                        msg += `Примеры:\n`;
+
+                        item.example.forEach((example) => {
+                            if (typeof example === "string") {
+                                msg += `<code>/${item.command} ${example}</code>\n`;
+                            } else {
+                                msg += `<code>/${item.command} ${example[0]}</code> - ${example[1]}\n`;
+                            }
+                        });
+                    } else {
+                        msg += `Пример: <code>/${item.command} ${item.example}</code>\n`;
+                    }
                 }
 
                 msg += "\n";
@@ -50,12 +72,18 @@ export function createBot(db: Database) {
 
         commands.push({ command, description, example });
 
-        bot.command(command, async (ctx) => {
+        bot.command(command, async (_ctx) => {
+            const ctx = createContext(_ctx, db);
             try {
-                await handler(createContext(ctx, db), db);
+                await handler(ctx, db);
             } catch (error) {
+                console.log("bot.command error::", error);
                 ctx.react("😡");
-                console.log(error);
+                // @ts-ignore
+                if (error?.message) {
+                    // @ts-ignore
+                    ctx.reply(error.message);
+                }
             }
         });
     }

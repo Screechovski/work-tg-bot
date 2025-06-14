@@ -2,28 +2,28 @@ import express, { Express, Request, Response } from "express";
 import { getStatusFromMergeRequest } from "./mergeRequest";
 import { Database } from "../db/models";
 
-let callback = (message: string) => {};
+let sendToChat = (message: string) => {};
 
-export function createHookServer(db: Database) {
+export function createHookServer(db: Database, _sendToChat: (m: string) => void) {
     const app: Express = express();
     const port = 3333;
+    sendToChat = _sendToChat;
 
     app.use(express.json());
 
     app.post("/", async (req: Request, res: Response) => {
-        const message = await getStatusFromMergeRequest(req.body);
+        console.log(req.body);
 
-        if (message) {
-            callback(message);
-        }
+        // const message = await getStatusFromMergeRequest(req.body);
 
-        res.send("ok");
+        // if (message) {
+        //     sendToChat(message);
+        // }
+
+        // res.send("ok");
     });
 
     return {
-        onHook(_callback: (message: string) => void) {
-            callback = _callback;
-        },
         launch(): Promise<void> {
             return new Promise((resolve) => {
                 app.listen(port, () => {

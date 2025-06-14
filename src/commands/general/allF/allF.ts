@@ -1,4 +1,5 @@
 import { createCommand, createCommandHandler } from "../../../core/command";
+import { getDateFromDatabase } from "../../../helper/date/getDateDatabase";
 
 const allFHandler = createCommandHandler(async (ctx, db) => {
     const users = await db.User.findAll();
@@ -10,8 +11,8 @@ const allFHandler = createCommandHandler(async (ctx, db) => {
         }
 
         if (user.vacationStart && user.vacationEnd) {
-            const startDate = new Date(user.vacationStart).getTime();
-            const endDate = new Date(user.vacationEnd).getTime();
+            const startDate = getDateFromDatabase(user.vacationStart).getTime();
+            const endDate = getDateFromDatabase(user.vacationEnd).getTime();
             const nowDate = new Date().getTime();
 
             if (startDate < nowDate && nowDate < endDate) {
