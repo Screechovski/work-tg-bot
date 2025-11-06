@@ -1,8 +1,8 @@
-import { createCommand, createCommandHandler } from "../../../core/command";
-import { getDateFromDatabase } from "../../../helper/date/getDateDatabase";
+import { getDateFromDatabase } from "../../../../helper/date/getDateDatabase";
+import { createCommand, createCommandHandler } from "../../command";
 
-const allFHandler = createCommandHandler(async (ctx, db) => {
-    const users = await db.User.findAll();
+const allFHandler = createCommandHandler(async (ctx, getAllUsers) => {
+    const users = await getAllUsers();
     let message = "";
 
     for (const user of users) {

@@ -1,4 +1,4 @@
-import { createCommand, createCommandHandler } from "../../../core/command";
+import { createCommand, createCommandHandler } from "../../command";
 
 const stopVacationHandler = createCommandHandler(async (ctx) => {
     const user = await ctx.getAuthor();

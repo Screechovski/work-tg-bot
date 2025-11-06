@@ -1,5 +1,5 @@
-import { ctxMock } from "../../../testAssets/ctxMock";
-import { dbMock } from "../../../testAssets/dbMock";
+import { ctxMock } from "../../../../testAssets/ctxMock";
+import { dbMock } from "../../../../testAssets/dbMock";
 import { allFFCommand } from "./allFF";
 
 describe("allFFCommand handler", () => {

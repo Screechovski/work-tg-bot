@@ -1,7 +1,7 @@
-import { createCommand, createCommandHandler } from "../../../core/command";
+import { createCommand, createCommandHandler } from "../../command";
 
-const allFFHandler = createCommandHandler(async (ctx, db) => {
-    const users = await db.User.findAll();
+const allFFHandler = createCommandHandler(async (ctx, getAllUsers) => {
+    const users = await getAllUsers();
     let message = "";
 
     for (const user of users) {

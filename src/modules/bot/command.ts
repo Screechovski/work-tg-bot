@@ -1,7 +1,7 @@
-import type { Database } from "../db/models";
-import type { Context } from "./context";
+import { DBPayload } from "../db";
+import { Context } from "./context";
 
-type Handler = (ctx: Context, db: Database) => Promise<void>;
+type Handler = (ctx: Context, getAllUsers: DBPayload["getAllUsers"]) => Promise<void>;
 
 export function createCommandHandler(callback: Handler): Handler {
     return callback;

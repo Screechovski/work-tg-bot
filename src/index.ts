@@ -1,36 +1,28 @@
-import { db } from "./db/models";
-import { createBot } from "./core/bot";
-import { createHookServer } from "./hooks";
-import { allFFCommand } from "./commands/general/allFF/allFF";
-import { allFCommand } from "./commands/general/allF/allF";
-import { testCommand } from "./commands/general/test";
-import { vacationCommand } from "./commands/general/vacation/vacation";
-import { stopVacationCommand } from "./commands/general/vacation/stopVacation";
+import { initBot } from "./modules/bot";
+import { createHookServer } from "./modules/server";
+import { initDB } from "./modules/db";
 import { getEnv } from "./helper/getEnv";
 
 async function main() {
     try {
-        // const bot = createBot(db);
-
-        // bot.add(allFCommand);
-        // bot.add(allFFCommand);
-        // bot.add(vacationCommand);
-        // bot.add(stopVacationCommand);
-        // bot.add(testCommand);
-
-        await db.init();
+        const db = await initDB();
         console.log("база данных запущена");
 
-        if (getEnv("WITH_WEBHOOKS") === "true") {
+        const bot = initBot(db);
+        console.log("бот создан");
+
+        if (getEnv("WITH_WEBHOOKS")) {
             const server = createHookServer(db);
-            server.setSendToChant((message) => console.log("tochat message: ", message));
+            console.log("сервер создан");
+            server.setSendToChant(console.log); //bot.sendToReviewChat);
             await server.launch();
-            console.log("сервер для webhook'ов запущен");
+            console.log("сервер запущен");
         }
-        // await bot.launch();
-        // console.log("бот запущен");
+
+        await bot.launch();
+        console.log("бот запущен");
     } catch (error) {
-        console.log(123, error);
+        console.log("main error::", error);
     }
 }
 

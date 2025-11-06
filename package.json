@@ -4,8 +4,9 @@
     "description": "Телеграм бот для автоматизации рабочих сообщений в телеграм чатах",
     "author": "Dmitriev Yaroslav",
     "scripts": {
-        "start": "nodemon --ext \"ts\" --watch src/**/*.ts --exec \"tsc --build && node --env-file=.env dist/index.js\"",
-        "test": "NODE_OPTIONS=\"--experimental-vm-modules\" jest --config jest.config.mjs"
+        "build": "tsc --build",
+        "dev": "nodemon",
+        "start": "node -r dotenv/config dist/index.js"
     },
     "dependencies": {
         "@sequelize/core": "^7.0.0-alpha.42",
