@@ -27,7 +27,7 @@ interface UserModel extends Model<InferAttributes<UserModel>, InferCreationAttri
     gitIdNumber: number;
     vacationStart?: string | null;
     vacationEnd?: string | null;
-    active: boolean;
+    active: number;
 }
 
 const User = sequelize.define<UserModel>("users", {
@@ -56,7 +56,7 @@ async function initUsers() {
             tgId: tg,
             gitId: g,
             gitIdNumber: gn,
-            active: true,
+            active: 1,
         });
     }
 

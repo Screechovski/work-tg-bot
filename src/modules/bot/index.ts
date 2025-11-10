@@ -59,7 +59,11 @@ export function initBot(payload: DBPayload) {
     }
 
     return {
-        launch: bot.launch,
+        launch: () => {
+            return new Promise((resolve) => {
+                bot.launch(() => resolve(1));
+            });
+        },
         sendToReviewChat(text: string) {
             bot.telegram.sendMessage(+getEnv("CHAT_ID"), text, {
                 message_thread_id: +getEnv("REVIEW_TREAD_ID"),
