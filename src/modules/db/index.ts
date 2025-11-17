@@ -11,7 +11,7 @@ import { getEnv } from "../../helper/getEnv";
 const sequelize = new Sequelize({
     dialect: PostgresDialect,
     user: getEnv("POSTGRES_USER"),
-    host: getEnv("DATABASE_HOST"),
+    host: getEnv("POSTGRES_HOST"),
     port: Number(getEnv("POSTGRES_PORT")),
     password: getEnv("POSTGRES_PASSWORD"),
     database: getEnv("POSTGRES_DB"),
@@ -72,9 +72,9 @@ async function initUsers() {
     // await addUser("Просветкин", "Андрей", "andreyvue78", "ASProsvetkin");
     // await addUser("Крашенинников", "Иван", "dotbotnet", "IKrasheninni");
 
-    await addUser("User1", "", "user3", "maralada", 31426342);
-    await addUser("User2", "", "user2", "screech1232", 31426283);
-    await addUser("Ярослав", "Дмитриев", "dmyavl", "webdev1232", 6457388);
+    await addUser("maraladaName", "", "maraladaTG", "maralada", 31426342);
+    await addUser("screechName", "", "screechTG", "screech1232", 31426283);
+    await addUser("webdevName", "", "webdevTG", "webdev1232", 6457388);
 }
 
 export async function initDB() {

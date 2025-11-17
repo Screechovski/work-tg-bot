@@ -65,9 +65,13 @@ export function initBot(payload: DBPayload) {
             });
         },
         sendToReviewChat(text: string) {
-            bot.telegram.sendMessage(+getEnv("CHAT_ID"), text, {
-                message_thread_id: +getEnv("REVIEW_TREAD_ID"),
-            });
+            try {
+                bot.telegram.sendMessage(+getEnv("CHAT_ID"), text, {
+                    message_thread_id: +getEnv("REVIEW_TREAD_ID"),
+                });
+            } catch (error) {
+                console.log("send to review error", error);
+            }
         },
         setAddDisableMrUrl(_add: (url: string) => void) {
             // TODO идея для будущего, при первом сообщении об созданом мр, добавлять кнопку, которая убирает прослушку с этого мр
